@@ -55,6 +55,24 @@ public class Point{
         return Double.compare(point.z, z) == 0;
     }
 
+    public boolean equalsIgnoreId(Point p){
+        if(this == p){
+            return true;
+        }
+        if(p == null){
+            return false;
+        }
+
+        if (Double.compare(p.x, x) != 0){
+            return false;
+        }
+        if (Double.compare(p.y, y) != 0){
+            return false;
+        }
+        return Double.compare(p.z, z) == 0;
+
+    }
+
     @Override
     public int hashCode() {
         int result;

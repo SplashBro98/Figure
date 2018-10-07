@@ -52,5 +52,21 @@ public class ActionTest {
         }
     }
 
+    @Test
+    public void checkPerimetrPositive(){
+        Point A = new Point(0,0,0);
+        Point B = new Point(0,1,0);
+        Point C = new Point(1,0,0);
+        Point D = new Point(0,0,1);
+        try{
+            Tetrahedron tetrahedron = new Tetrahedron(A,B,C,D);
+            double actual = calculator.calculatePerimetr(tetrahedron);
+            double expected = 3*(1+pow(2,0.5));
+            Assert.assertEquals(actual,expected);
+        }catch (CustomException e){
+            throw new RuntimeException(e);
+        }
+    }
+
 
 }

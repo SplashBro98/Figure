@@ -7,24 +7,27 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class TetraValidator {
-    public static final String TETRA_REGEX = "((-|\\+)?[0-9]+(\\.[0-9])?(\\s)?){12}";
+
     private static Logger logger = LogManager.getLogger();
 
-    public boolean checkData(String input) throws CustomException{
-        if(input == null || input.isEmpty()){
-            throw new CustomException("Input string is null or empty");
+    public boolean isCorrectPoints(Point a, Point b, Point c, Point d){
+        Calculator calculator = new Calculator();
+        if(calculator.isOnePlane(a,b,c,d)){
+            return false;
         }
-        if (input.matches(TETRA_REGEX)){
-            return true;
+        Point[][] array = {{a,b},{a,c},{a,d},{b,c},{b,d},{c,d}};
+        int i = 0;
+        while(i < array.length){
+            if(isNotEqualPoints(array[i][0],array[i][1])){
+                return false;
+            }
+            i++;
         }
-        else {
-            throw new CustomException("Incorrect string");
-        }
+        return true;
     }
 
-    public boolean correctPoints(Point a, Point b, Point c, Point d){
-        Calculator calculator = new Calculator();
-        return !calculator.isOnePlane(a,b,c,d);
+    private boolean isNotEqualPoints(Point a, Point b){
+        return a.equalsIgnoreId(b);
     }
 
 

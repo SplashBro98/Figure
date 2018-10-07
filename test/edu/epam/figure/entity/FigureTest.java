@@ -1,8 +1,12 @@
 package edu.epam.figure.entity;
 
 import edu.epam.figure.exception.CustomException;
+import edu.epam.figure.factory.Figure3D;
+import edu.epam.figure.factory.Figure3DMaker;
+import edu.epam.figure.factory.TetraMaker;
 import edu.epam.figure.reader.TetraReader;
-import edu.epam.figure.validator.TetraValidator;
+import edu.epam.figure.transformer.PointTransformer;
+import edu.epam.figure.validator.PointValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.testng.Assert;
@@ -14,26 +18,27 @@ import java.util.List;
 
 public class FigureTest {
     private static final String PATH = "input\\test.txt";
-    private TetraValidator validator;
+    private static Logger logger = LogManager.getLogger();
+    private PointValidator validator;
     private Figure3DMaker maker;
     private TetraReader reader;
+    private PointTransformer transformer;
 
     @BeforeClass
     public void setUp(){
-        validator = new TetraValidator();
+        validator = new PointValidator();
         maker = new TetraMaker();
         reader = new TetraReader();
+        transformer = new PointTransformer();
     }
 
     @Test
-    public void maintest() throws CustomException {
+    public void maintest(){
         List<String> list = reader.readInfo(PATH);
         ArrayList<Figure3D> array = new ArrayList<>();
         for(String input : list){
            try{
-               if(validator.checkData(input)) {
-                   array.add(maker.createFigure(input));
-               }
+               array.add(maker.createFigure(transformer.createPoints(input)));
            }catch (CustomException e){
 
            }

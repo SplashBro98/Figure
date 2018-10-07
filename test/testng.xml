@@ -4,6 +4,8 @@
         <class name="edu.epam.figure.action.ActionTest"/>
         <class name="edu.epam.figure.entity.FigureTest"/>
         <class name="edu.epam.figure.validation.ValidTest"/>
+        <class name="edu.epam.figure.pattern.ObserverTest"/>
+        <class name="edu.epam.figure.action.PlaneCheckerTest"/>
     </classes>
 </test>
 </suite>

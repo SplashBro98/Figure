@@ -3,14 +3,22 @@ package edu.epam.figure.action;
 import edu.epam.figure.entity.Point;
 import edu.epam.figure.entity.RegularTetrahedron;
 import edu.epam.figure.entity.Tetrahedron;
+import edu.epam.figure.observer.Observer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import static java.lang.Math.abs;
 import static java.lang.Math.pow;
 
-public class Calculator {
+public class Calculator implements Observer {
     private static Logger logger = LogManager.getLogger();
+
+    @Override
+    public void handleEvent(Tetrahedron tetrahedron) {
+        tetrahedron.setVolume(calculateVolume(tetrahedron));
+        tetrahedron.setSquare(calculateSquare(tetrahedron));
+        tetrahedron.setPerimetr(calculatePerimetr(tetrahedron));
+    }
 
     public double calculateSquare(Tetrahedron tetr) {
         if (tetr instanceof RegularTetrahedron) {
@@ -45,6 +53,18 @@ public class Calculator {
         return (1 / 6.0) * determinate(array);
     }
 
+    public double calculatePerimetr(Tetrahedron tetr){
+        Point[][] array = {{tetr.getA(),tetr.getB()},{tetr.getA(),tetr.getC()},{tetr.getA(),tetr.getD()},
+                {tetr.getB(),tetr.getC()},{tetr.getB(),tetr.getD()},{tetr.getC(),tetr.getD()}};
+        double sum = 0.0;
+        for (int i = 0; i < array.length; i++) {
+            sum += calculateLength(array[i][0],array[i][1]);
+        }
+        return sum;
+    }
+
+
+
     public boolean isOnePlane(Point a, Point b, Point c, Point d) {
         Point[][] array = {{a, b, c, d}, {a, c, b, d}, {a, d, b, c}};
         int i = 0;
@@ -69,10 +89,7 @@ public class Calculator {
         return false;
     }
 
-    //check collinear
-//    public boolean isOneLine(Point a, Point b, Point c){
-//
-//    }
+
 
 
     private double calculateSideSquare(double a, double b, double c) {

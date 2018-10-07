@@ -1,20 +1,23 @@
 package edu.epam.figure.validation;
 
+import edu.epam.figure.entity.Point;
+import edu.epam.figure.entity.Tetrahedron;
 import edu.epam.figure.exception.CustomException;
+import edu.epam.figure.validator.PointValidator;
 import edu.epam.figure.validator.TetraValidator;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 public class ValidTest {
-    private TetraValidator validator;
+    private PointValidator pointValidator;
+    private TetraValidator tetraValidator;
 
     @BeforeClass
     public void setUp(){
-        validator = new TetraValidator();
+        pointValidator = new PointValidator();
+        tetraValidator = new TetraValidator();
     }
 
     @DataProvider(name = "forCheckStringPos")
@@ -29,12 +32,12 @@ public class ValidTest {
 
     @Test(dataProvider = "forCheckStringPos")
     public void checkStringPositive(String input, boolean expected) throws CustomException {
-        boolean actual = validator.checkData(input);
+        boolean actual = pointValidator.checkData(input);
         Assert.assertEquals(actual,expected);
     }
 
-    @DataProvider(name = "forCheckStringNeg")
-    public Object[][] forCheckStringNeg(){
+    @DataProvider(name = "checkStringNeg")
+    public Object[][] checkStringNeg(){
         return new Object[][]{
                 {"", false},
                 {null, false},
@@ -45,9 +48,29 @@ public class ValidTest {
                 {"1.0 1.0 1.f0 2.0 2.0 2.0 3.0 3.0 3.0 4.0 4.0 4.0 5.0", false},
         };
     }
-    @Test(dataProvider = "forCheckStringNeg")
-    public void checkStringNegative(String input, boolean expected) throws CustomException{
-        boolean actual = validator.checkData(input);
+    @Test(dataProvider = "checkStringNeg")
+    public void checkStringNegative(String input, boolean expected){
+        boolean actual = pointValidator.checkData(input);
         Assert.assertEquals(actual,expected);
+    }
+
+    @Test
+    public void correctPointsTest(){
+        Point a = new Point(1.0,1.0,1.0);
+        Point b = new Point(3.0,3.0,3.0);
+        Point c = new Point(-2.0,-2.0,-2.0);
+        Point d = new Point(4.0,4.0,4.0);
+        boolean actual = tetraValidator.isCorrectPoints(a,b,c,d);
+        boolean expected = false;
+        Assert.assertEquals(actual, expected);
+    }
+
+    @Test(timeOut = 100, expectedExceptions = CustomException.class)
+    public void validTimeTest() throws CustomException{
+        Point a = new Point(1.0,1.0,1.0);
+        Point b = new Point(1.0,1.0,1.0);
+        Point c = new Point(-2.0,-2.0,-2.0);
+        Point d = new Point(4.0,4.0,4.0);
+        Tetrahedron tetr = new Tetrahedron(a,b,c,d);
     }
 }

@@ -18,7 +18,7 @@ public class TetraReader {
     private static final String PATH = "input\\input.txt";
     private static Logger logger = LogManager.getLogger();
 
-    public List<String> readInfo(String filepath) throws CustomException {
+    public List<String> readInfo(String filepath){
         List<String> result;
         FileReader fileReader;
         try{
