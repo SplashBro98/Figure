@@ -85,4 +85,9 @@ public class Point{
         result = 31 * result + (int) (temp ^ (temp >>> 32));
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "Id: " + pointId + "(" + x +", " + y + ", " + z + ")";
+    }
 }

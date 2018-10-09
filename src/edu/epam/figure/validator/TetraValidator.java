@@ -3,6 +3,7 @@ package edu.epam.figure.validator;
 import edu.epam.figure.action.Calculator;
 import edu.epam.figure.entity.Point;
 import edu.epam.figure.exception.CustomException;
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

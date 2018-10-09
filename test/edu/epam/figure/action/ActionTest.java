@@ -16,56 +16,45 @@ public class ActionTest {
     private Calculator calculator;
 
     @BeforeClass
-    public void setUp(){
+    public void setUp() {
         calculator = new Calculator();
     }
 
     @Test
-    public void checkSquarePositive(){
-        Point A = new Point(0,0,0);
-        Point B = new Point(0,1,0);
-        Point C = new Point(1,0,0);
-        Point D = new Point(0,0,1);
-        try {
-            Tetrahedron tetrahedron = new Tetrahedron(A,B,C,D);
-            double actual = calculator.calculateSquare(tetrahedron);
-            double expected = (3 + pow(3,0.5))/2;
-            Assert.assertEquals(actual,expected);
-        }catch (CustomException e){
-            throw new RuntimeException(e);
-        }
+    public void checkSquarePositive() {
+        Point A = new Point(0, 0, 0);
+        Point B = new Point(0, 1, 0);
+        Point C = new Point(1, 0, 0);
+        Point D = new Point(0, 0, 1);
+        Tetrahedron tetrahedron = new Tetrahedron(A, B, C, D);
+        double actual = calculator.calculateSquare(tetrahedron);
+        double expected = (3 + pow(3, 0.5)) / 2;
+        Assert.assertEquals(actual, expected);
+
     }
 
     @Test
-    public void checkVolumePositive(){
-        Point A = new Point(0,0,0);
-        Point B = new Point(0,1,0);
-        Point C = new Point(1,0,0);
-        Point D = new Point(0,0,1);
-        try{
-            Tetrahedron tetrahedron = new Tetrahedron(A,B,C,D);
-            double actual = calculator.calculateVolume(tetrahedron);
-            double expected = 1/6.0;
-            Assert.assertEquals(actual,expected);
-        }catch (CustomException e){
-            throw new RuntimeException(e);
-        }
+    public void checkVolumePositive() {
+        Point A = new Point(0, 0, 0);
+        Point B = new Point(0, 1, 0);
+        Point C = new Point(1, 0, 0);
+        Point D = new Point(0, 0, 1);
+        Tetrahedron tetrahedron = new Tetrahedron(A, B, C, D);
+        double actual = calculator.calculateVolume(tetrahedron);
+        double expected = 1 / 6.0;
+        Assert.assertEquals(actual, expected);
     }
 
     @Test
-    public void checkPerimetrPositive(){
-        Point A = new Point(0,0,0);
-        Point B = new Point(0,1,0);
-        Point C = new Point(1,0,0);
-        Point D = new Point(0,0,1);
-        try{
-            Tetrahedron tetrahedron = new Tetrahedron(A,B,C,D);
-            double actual = calculator.calculatePerimetr(tetrahedron);
-            double expected = 3*(1+pow(2,0.5));
-            Assert.assertEquals(actual,expected);
-        }catch (CustomException e){
-            throw new RuntimeException(e);
-        }
+    public void checkPerimetrPositive() {
+        Point A = new Point(0, 0, 0);
+        Point B = new Point(0, 1, 0);
+        Point C = new Point(1, 0, 0);
+        Point D = new Point(0, 0, 1);
+        Tetrahedron tetrahedron = new Tetrahedron(A, B, C, D);
+        double actual = calculator.calculatePerimetr(tetrahedron);
+        double expected = 3 * (1 + pow(2, 0.5));
+        Assert.assertEquals(actual, expected);
     }
 
 

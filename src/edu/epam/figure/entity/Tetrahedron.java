@@ -7,6 +7,9 @@ import edu.epam.figure.observer.Observable;
 import edu.epam.figure.observer.Observer;
 import edu.epam.figure.util.IdGenerator;
 import edu.epam.figure.validator.TetraValidator;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,28 +20,18 @@ public class Tetrahedron implements Figure3D, Observable {
     private Point b;
     private Point c;
     private Point d;
-    private double volume;
-    private double square;
-    private double perimetr;
     List<Observer> observers;
 
 
-    public Tetrahedron(Point a, Point b, Point c, Point d) throws CustomException{
-        TetraValidator validator = new TetraValidator();
-        Calculator calculator = new Calculator();
-        if(!validator.isCorrectPoints(a,b,c,d)){
-            throw new CustomException("These Points can`t be a Tetrahedron");
-        }
+    public Tetrahedron(Point a, Point b, Point c, Point d) {
         this.a = a;
         this.b = b;
         this.c = c;
         this.d = d;
         this.tetraId = IdGenerator.getTetraId();
         this.observers = new ArrayList<>();
-        this.volume = calculator.calculateVolume(this);
-        this.square = calculator.calculateSquare(this);
-        this.perimetr = calculator.calculatePerimetr(this);
     }
+
 
     @Override
     public void addObserver(Observer o) {
@@ -52,7 +45,7 @@ public class Tetrahedron implements Figure3D, Observable {
 
     @Override
     public void notifyObservers() {
-        for(Observer observer : observers){
+        for (Observer observer : observers) {
             observer.handleEvent(this);
         }
     }
@@ -97,30 +90,6 @@ public class Tetrahedron implements Figure3D, Observable {
         return tetraId;
     }
 
-    public double getVolume() {
-        return volume;
-    }
-
-    public double getSquare() {
-        return square;
-    }
-
-    public double getPerimetr() {
-        return perimetr;
-    }
-
-    public void setVolume(double volume) {
-        this.volume = volume;
-    }
-
-    public void setSquare(double square) {
-        this.square = square;
-    }
-
-    public void setPerimetr(double perimetr) {
-        this.perimetr = perimetr;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -135,11 +104,11 @@ public class Tetrahedron implements Figure3D, Observable {
         return d.equals(that.d);
     }
 
-    public boolean equalsIgnoreId(Tetrahedron tetr){
-        if (this == tetr){
+    public boolean equalsIgnoreId(Tetrahedron tetr) {
+        if (this == tetr) {
             return true;
         }
-        if (tetr == null || !a.equals(tetr.a) || !b.equals(tetr.b) || !c.equals(tetr.c)){
+        if (tetr == null || !a.equals(tetr.a) || !b.equals(tetr.b) || !c.equals(tetr.c)) {
             return false;
         }
         return d.equals(tetr.d);
@@ -160,7 +129,6 @@ public class Tetrahedron implements Figure3D, Observable {
         return "Id: " + tetraId + ", a = (" + a.getX() + "," + a.getY() + "," + a.getZ() + "), " +
                 "b = (" + b.getX() + "," + b.getY() + "," + b.getZ() + "), " +
                 "c = (" + c.getX() + "," + c.getY() + "," + c.getZ() + "), " +
-                "d = (" + d.getX() + "," + d.getY() + "," + d.getZ() + ")" + "\n" +
-                "volume: " + volume + ", square: " + square;
+                "d = (" + d.getX() + "," + d.getY() + "," + d.getZ() + ")" + "\n";
     }
 }

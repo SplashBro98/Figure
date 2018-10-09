@@ -1,51 +1,31 @@
 package edu.epam.figure.action;
 
 import edu.epam.figure.entity.Point;
-import edu.epam.figure.entity.RegularTetrahedron;
 import edu.epam.figure.entity.Tetrahedron;
-import edu.epam.figure.observer.Observer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import static java.lang.Math.*;
 
-import static java.lang.Math.abs;
-import static java.lang.Math.pow;
-
-public class Calculator implements Observer {
+public class Calculator{
     private static Logger logger = LogManager.getLogger();
 
-    @Override
-    public void handleEvent(Tetrahedron tetrahedron) {
-        tetrahedron.setVolume(calculateVolume(tetrahedron));
-        tetrahedron.setSquare(calculateSquare(tetrahedron));
-        tetrahedron.setPerimetr(calculatePerimetr(tetrahedron));
-    }
-
     public double calculateSquare(Tetrahedron tetr) {
-        if (tetr instanceof RegularTetrahedron) {
-            RegularTetrahedron regularTetrahedron = (RegularTetrahedron) tetr;
-            return pow(3.0, 0.5) * Math.sqrt(regularTetrahedron.getLength());
-        }
-        double length1 = calculateLength(tetr.getA(), tetr.getB());
-        double length2 = calculateLength(tetr.getB(), tetr.getC());
-        double length3 = calculateLength(tetr.getA(), tetr.getC());
-        double length4 = calculateLength(tetr.getA(), tetr.getD());
-        double length5 = calculateLength(tetr.getB(), tetr.getD());
-        double length6 = calculateLength(tetr.getC(), tetr.getD());
+        double lengthAtoB = calculateLength(tetr.getA(), tetr.getB());
+        double lengthBtoC = calculateLength(tetr.getB(), tetr.getC());
+        double lengthAtoC = calculateLength(tetr.getA(), tetr.getC());
+        double lengthAtoD = calculateLength(tetr.getA(), tetr.getD());
+        double lengthBtoD = calculateLength(tetr.getB(), tetr.getD());
+        double lengthCtoD = calculateLength(tetr.getC(), tetr.getD());
 
-        double square1 = calculateSideSquare(length1, length2, length3);
-        double square2 = calculateSideSquare(length1, length4, length5);
-        double square3 = calculateSideSquare(length2, length5, length6);
-        double square4 = calculateSideSquare(length3, length4, length6);
+        double squareABC = calculateSideSquare(lengthAtoB, lengthBtoC, lengthAtoC);
+        double squareABD = calculateSideSquare(lengthAtoB, lengthAtoD, lengthBtoD);
+        double squareBCD = calculateSideSquare(lengthBtoC, lengthBtoD, lengthCtoD);
+        double squareACD = calculateSideSquare(lengthAtoC, lengthAtoD, lengthCtoD);
 
-        return (square1 + square2 + square3 + square4);
+        return (squareABC + squareABD + squareBCD + squareACD);
     }
 
     public double calculateVolume(Tetrahedron tetr) {
-        if (tetr instanceof RegularTetrahedron) {
-            RegularTetrahedron regularTetrahedron = (RegularTetrahedron) tetr;
-            return (pow(2.0, 0.5) * pow(regularTetrahedron.getLength(), 3.0)) / 12;
-        }
-
         double[][] array = {{1, tetr.getA().getX(), tetr.getA().getY(), tetr.getA().getZ()},
                 {1, tetr.getB().getX(), tetr.getB().getY(), tetr.getB().getZ()},
                 {1, tetr.getC().getX(), tetr.getC().getY(), tetr.getC().getZ()},
@@ -98,8 +78,8 @@ public class Calculator implements Observer {
     }
 
     private double calculateLength(Point a, Point b) {
-        double sum = Math.sqrt(abs(a.getX() - b.getX())) + Math.sqrt(abs(a.getY() - b.getY())) +
-                Math.sqrt(abs(a.getZ() - b.getZ()));
+        double sum = sqrt(abs(a.getX() - b.getX())) + sqrt(abs(a.getY() - b.getY())) +
+                sqrt(abs(a.getZ() - b.getZ()));
         return pow(sum, 0.5);
     }
 
@@ -127,7 +107,6 @@ public class Calculator implements Observer {
                 }
             }
         }
-
         double result = 1.0;
         for (int i = 0; i < array.length; i++) {
             result *= array[i][i];
