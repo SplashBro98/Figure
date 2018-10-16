@@ -3,22 +3,30 @@ package edu.epam.figure.action;
 import edu.epam.figure.entity.Point;
 import edu.epam.figure.entity.Tetrahedron;
 import edu.epam.figure.exception.CustomException;
+import edu.epam.figure.reader.TetraReader;
+import edu.epam.figure.repository.TetraRepository;
+import edu.epam.figure.transformer.PointTransformer;
+import edu.epam.figure.validator.PointValidator;
+import edu.epam.figure.validator.TetraValidator;
 import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+import java.util.List;
 
 import static org.testng.Assert.*;
 
 public class PlaneCheckerTest {
     private PlaneChecker checker;
 
-    @BeforeMethod
+    @BeforeClass
     public void setUp() {
         checker = new PlaneChecker();
     }
 
     @Test
-    public void testIsOnPlaneX() throws CustomException {
+    public void testIsOnPlaneX(){
         Point a = new Point(1.0,1.0,1.0);
         Point b = new Point(3.0,3.0,5.0);
         Point c = new Point(-2.0,-6.0,-2.0);
@@ -30,7 +38,7 @@ public class PlaneCheckerTest {
     }
 
     @Test
-    public void testIsOnPlaneY() throws CustomException{
+    public void testIsOnPlaneY(){
         Point a = new Point(1.0,0.0,1.0);
         Point b = new Point(3.0,0.0,3.0);
         Point c = new Point(6.0,0.0,-2.0);
@@ -42,7 +50,7 @@ public class PlaneCheckerTest {
     }
 
     @Test
-    public void testIsOnPlaneZ() throws CustomException{
+    public void testIsOnPlaneZ(){
         Point a = new Point(1.0,2.0,0.0);
         Point b = new Point(3.0,3.0,0.0);
         Point c = new Point(6.0,4.0,0.0);

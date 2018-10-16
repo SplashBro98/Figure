@@ -2,12 +2,9 @@ package edu.epam.figure.action;
 
 import edu.epam.figure.entity.Point;
 import edu.epam.figure.entity.Tetrahedron;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import static java.lang.Math.*;
 
 public class Calculator{
-    private static Logger logger = LogManager.getLogger();
 
     public double calculateSquare(Tetrahedron tetr) {
         double lengthAtoB = calculateLength(tetr.getA(), tetr.getB());
@@ -111,6 +108,6 @@ public class Calculator{
         for (int i = 0; i < array.length; i++) {
             result *= array[i][i];
         }
-        return result;
+        return abs(result);
     }
 }

@@ -5,7 +5,7 @@ import edu.epam.figure.entity.Point;
 
 public class PointTransformer {
     private static final int COORD_COUNT = 12;
-    private static final String REGEX_DELIMETR = "\\s";
+    private static final String REGEX_DELIMETR = "\\p{Blank}";
 
     public Point[] createPoints(String input){
         String[] array = input.split(REGEX_DELIMETR);

@@ -1,6 +1,7 @@
 <suite name="TestSuite">
 <test name="Testing">
     <classes>
+        <class name="edu.epam.figure.pattern.SpecificationTest"/>
         <class name="edu.epam.figure.action.ActionTest"/>
         <class name="edu.epam.figure.entity.FigureTest"/>
         <class name="edu.epam.figure.validation.ValidTest"/>

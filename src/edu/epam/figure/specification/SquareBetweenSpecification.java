@@ -1,7 +1,7 @@
 package edu.epam.figure.specification;
 
 import edu.epam.figure.entity.Tetrahedron;
-import edu.epam.figure.register.TetraRegister;
+import edu.epam.figure.observer.TetraObserverImpl;
 
 public class SquareBetweenSpecification implements Specification<Tetrahedron> {
     private double minSquare;
@@ -30,7 +30,7 @@ public class SquareBetweenSpecification implements Specification<Tetrahedron> {
 
     @Override
     public boolean specify(Tetrahedron tetrahedron) {
-        double square = TetraRegister.getInstance().getParametrs().get(tetrahedron.getTetraId()).getSquare();
+        double square = TetraObserverImpl.getInstance().getParametrs().get(tetrahedron.getTetraId()).getSquare();
         return (square > minSquare && square < maxSquare);
     }
 }

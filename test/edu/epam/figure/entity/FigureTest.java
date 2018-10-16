@@ -1,55 +1,24 @@
 package edu.epam.figure.entity;
 
-import edu.epam.figure.exception.CustomException;
 import edu.epam.figure.factory.Figure3D;
-import edu.epam.figure.factory.Figure3DMaker;
-import edu.epam.figure.factory.TetraMaker;
-import edu.epam.figure.reader.TetraReader;
-import edu.epam.figure.transformer.PointTransformer;
-import edu.epam.figure.validator.PointValidator;
-import edu.epam.figure.validator.TetraValidator;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import edu.epam.figure.repository.TetraRepository;
+import edu.epam.figure.specification.EveryFigureSpecification;
 import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class FigureTest {
-    private static final String PATH = "input\\test.txt";
-    private PointValidator validator;
-    private TetraValidator tetraValidator;
-    private Figure3DMaker maker;
-    private TetraReader reader;
-    private PointTransformer transformer;
 
-    @BeforeClass
-    public void setUp() {
-        validator = new PointValidator();
-        maker = new TetraMaker();
-        reader = new TetraReader();
-        transformer = new PointTransformer();
-        tetraValidator = new TetraValidator();
-    }
+
 
     @Test
     public void maintest() {
-        List<String> list = reader.readInfo(PATH);
-        ArrayList<Figure3D> array = new ArrayList<>();
-        for (String input : list) {
-            if (validator.checkData(input)) {
-                Point[] points = transformer.createPoints(input);
-                if (tetraValidator.isCorrectPoints(points[0], points[1], points[2], points[3])) {
-                    array.add(maker.createFigure(points));
-                }
-            }
-        }
-        for (Figure3D figure : array) {
+        List<Tetrahedron> tetrahedronList = TetraRepository.INSTANCE.query(new EveryFigureSpecification());
+        for (Figure3D figure : tetrahedronList) {
             System.out.println(figure.toString());
         }
-        int actual = array.size();
+        int actual = tetrahedronList.size();
         int expected = 4;
         Assert.assertEquals(actual, expected);
     }

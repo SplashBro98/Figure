@@ -1,7 +1,7 @@
 package edu.epam.figure.specification;
 
 import edu.epam.figure.entity.Tetrahedron;
-import edu.epam.figure.register.TetraRegister;
+import edu.epam.figure.observer.TetraObserverImpl;
 
 public class VolumeBetweenSpecification implements Specification<Tetrahedron> {
     private double minVolume;
@@ -30,7 +30,7 @@ public class VolumeBetweenSpecification implements Specification<Tetrahedron> {
 
     @Override
     public boolean specify(Tetrahedron tetrahedron) {
-        double volume = TetraRegister.getInstance().getParametrs().get(tetrahedron.getTetraId()).getVolume();
+        double volume = TetraObserverImpl.getInstance().getParametrs().get(tetrahedron.getTetraId()).getVolume();
         return (volume > minVolume && volume < maxVolume);
     }
 }

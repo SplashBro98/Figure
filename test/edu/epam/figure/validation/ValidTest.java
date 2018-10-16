@@ -2,7 +2,6 @@ package edu.epam.figure.validation;
 
 import edu.epam.figure.entity.Point;
 import edu.epam.figure.entity.Tetrahedron;
-import edu.epam.figure.exception.CustomException;
 import edu.epam.figure.validator.PointValidator;
 import edu.epam.figure.validator.TetraValidator;
 import org.testng.Assert;
@@ -10,9 +9,11 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+
+
 public class ValidTest {
-    private PointValidator pointValidator;
     private TetraValidator tetraValidator;
+    private PointValidator pointValidator;
 
     @BeforeClass
     public void setUp(){
@@ -31,7 +32,7 @@ public class ValidTest {
     }
 
     @Test(dataProvider = "forCheckStringPos")
-    public void checkStringPositive(String input, boolean expected) throws CustomException {
+    public void checkStringPositive(String input, boolean expected){
         boolean actual = pointValidator.checkData(input);
         Assert.assertEquals(actual,expected);
     }
@@ -65,8 +66,8 @@ public class ValidTest {
         Assert.assertEquals(actual, expected);
     }
 
-    @Test(timeOut = 100, expectedExceptions = CustomException.class)
-    public void validTimeTest() throws CustomException{
+    @Test(timeOut = 100)
+    public void validTimeTest(){
         Point a = new Point(1.0,1.0,1.0);
         Point b = new Point(1.0,1.0,1.0);
         Point c = new Point(-2.0,-2.0,-2.0);

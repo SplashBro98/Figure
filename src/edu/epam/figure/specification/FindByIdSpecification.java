@@ -11,7 +11,6 @@ public class FindByIdSpecification implements Specification<Tetrahedron> {
 
     @Override
     public boolean specify(Tetrahedron tetrahedron) {
-        long tetraId = tetrahedron.getTetraId();
-        return (id == tetraId);
+        return (id == tetrahedron.getTetraId());
     }
 }

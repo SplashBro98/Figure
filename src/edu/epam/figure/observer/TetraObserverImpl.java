@@ -1,36 +1,34 @@
-package edu.epam.figure.register;
+package edu.epam.figure.observer;
 
 import edu.epam.figure.action.Calculator;
 import edu.epam.figure.entity.Tetrahedron;
-import edu.epam.figure.observer.Observer;
+import edu.epam.figure.register.Parametr;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.function.BiConsumer;
 
-public class TetraRegister implements Observer<Tetrahedron> {
+public class TetraObserverImpl implements Observer<Tetrahedron> {
     private static Logger logger = LogManager.getLogger();
-    private static TetraRegister instance;
+    private static TetraObserverImpl instance;
     private Map<Long,Parametr> parametrs;
 
-    private TetraRegister() {
+    private TetraObserverImpl() {
        parametrs = new TreeMap<>();
     }
 
-    public static TetraRegister getInstance(){
+    public static TetraObserverImpl getInstance(){
         if(instance == null){
-            instance = new TetraRegister();
+            instance = new TetraObserverImpl();
         }
         return instance;
     }
     public boolean addTetrahedron(Tetrahedron tetr){
         if(parametrs.containsKey(tetr.getTetraId())){
-            logger.log(Level.ERROR,"This tetrahedron is already in register");
+            logger.log(Level.INFO,"This tetrahedron is already in warehouse");
             return false;
         }
         Calculator calculator = new Calculator();
@@ -40,6 +38,9 @@ public class TetraRegister implements Observer<Tetrahedron> {
         Parametr parametr = new Parametr(volume,square,perimetr);
         parametrs.put(tetr.getTetraId(),parametr);
         return true;
+    }
+    public void removeTetrahedron(long tetraId){
+        parametrs.remove(tetraId);
     }
 
     public Map<Long, Parametr> getParametrs() {
@@ -58,7 +59,7 @@ public class TetraRegister implements Observer<Tetrahedron> {
 
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder("TetraRegister: \n");
+        StringBuilder builder = new StringBuilder("TetraObserverImpl: \n");
         parametrs.forEach((Long aLong, Parametr parametr) ->  builder.append("Id: " + aLong +
                     ", volume: " + parametr.getVolume() +
                     ", square: " + parametr.getSquare() +

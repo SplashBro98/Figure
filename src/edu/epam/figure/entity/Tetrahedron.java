@@ -1,15 +1,9 @@
 package edu.epam.figure.entity;
 
-import edu.epam.figure.action.Calculator;
-import edu.epam.figure.exception.CustomException;
 import edu.epam.figure.factory.Figure3D;
 import edu.epam.figure.observer.Observable;
 import edu.epam.figure.observer.Observer;
 import edu.epam.figure.util.IdGenerator;
-import edu.epam.figure.validator.TetraValidator;
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +14,7 @@ public class Tetrahedron implements Figure3D, Observable {
     private Point b;
     private Point c;
     private Point d;
-    List<Observer> observers;
+    private List<Observer> observers;
 
 
     public Tetrahedron(Point a, Point b, Point c, Point d) {
@@ -45,9 +39,7 @@ public class Tetrahedron implements Figure3D, Observable {
 
     @Override
     public void notifyObservers() {
-        for (Observer observer : observers) {
-            observer.handleEvent(this);
-        }
+        observers.forEach(o -> o.handleEvent(this));
     }
 
     public Point getA() {

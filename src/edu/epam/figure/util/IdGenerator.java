@@ -1,6 +1,5 @@
 package edu.epam.figure.util;
 
-import edu.epam.figure.entity.Tetrahedron;
 
 public class IdGenerator {
     private static final long MAX_TETRA_ID = 100000;

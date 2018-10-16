@@ -1,12 +1,12 @@
 package edu.epam.figure.repository;
 
 import edu.epam.figure.entity.Tetrahedron;
-import edu.epam.figure.register.TetraRegister;
+import edu.epam.figure.observer.TetraObserverImpl;
 import edu.epam.figure.specification.Specification;
-
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public enum TetraRepository implements Repository<Tetrahedron> {
     INSTANCE;
@@ -20,18 +20,16 @@ public enum TetraRepository implements Repository<Tetrahedron> {
     @Override
     public void add(Tetrahedron tetrahedron) {
         tetrahedronList.add(tetrahedron);
-        TetraRegister.getInstance().addTetrahedron(tetrahedron);
+        TetraObserverImpl.getInstance().addTetrahedron(tetrahedron);
     }
 
     @Override
     public void remove(Tetrahedron tetrahedron) {
         tetrahedronList.remove(tetrahedron);
+        TetraObserverImpl.getInstance().removeTetrahedron(tetrahedron.getTetraId());
+        tetrahedron.removeObserver(TetraObserverImpl.getInstance());
     }
 
-    @Override
-    public void update(Tetrahedron tetrahedron) {
-
-    }
 
     @Override
     public void sort(Comparator<Tetrahedron> comparator) {
@@ -40,21 +38,13 @@ public enum TetraRepository implements Repository<Tetrahedron> {
 
     @Override
     public List<Tetrahedron> query(Specification specification) {
-        List<Tetrahedron> result = new ArrayList<>();
-        for(Tetrahedron tetr : tetrahedronList){
-            if(specification.specify(tetr)){
-                result.add(tetr);
-            }
-        }
-        return result;
+        return tetrahedronList.stream().filter(o -> specification.specify(o)).collect(Collectors.toList());
     }
 
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder("Repository: \n");
-        for(Tetrahedron tetr : tetrahedronList){
-            builder.append(tetr.toString());
-        }
+        tetrahedronList.forEach(o -> builder.append(o.toString()));
         return builder.append("\n").toString();
     }
 }
